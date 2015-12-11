@@ -1,46 +1,40 @@
-import sqlite3
 import sys
 import urllib.request
 import bs4
 
+# 引数にidを入れて実行する
 param = sys.argv
 recipe_id = param[1]
 
-# HTML を取得
+# HTML を取得し、bs4で読み取れるようにする
 html = urllib.request.urlopen("http://cookpad.com/recipe/" + recipe_id).read()
-
-# スクレイピング用の BeautifulSoup オブジェクトを作成
-temp = bs4.BeautifulSoup(html)
-# brタグがあると、手順を取得する際、仕様上不都合があるので、置換しておく
-temp_str = str(temp).replace("<br/>", "")
-
-soup = bs4.BeautifulSoup(temp_str)
+soup = bs4.BeautifulSoup(html)
 
 # レシピのタイトルを取得し、出力
 recipe_title = soup.find("h1", attrs={"class": "recipe-title fn clearfix"})
 print("レシピ名:"+recipe_title.string)
 
-
-print("材料名:")
 # レシピの材料部を取得
 recipe_ingredients = soup.find("div", attrs={"id": "ingredients_list"})
+ingredient_names = recipe_ingredients.findAll("div", attrs={"class": "ingredient_name"})
+ingredient_amounts = recipe_ingredients.findAll("div", attrs={"class": "ingredient_quantity amount"})
 
-for ingredient_name in recipe_ingredients.findAll("div", attrs={"class": "ingredient_name"}):
-    if isinstance(ingredient_name, bs4.Tag):
-        print(ingredient_name.text)
+# 材料：量 を出力
+print("材料:")
+for i in range(0,len(ingredient_names)):
 
-# 材料の量を取得
-for ingredient_amount in recipe_ingredients.findAll("div", attrs={"class": "ingredient_quantity amount"}):
-    if isinstance(ingredient_amount, bs4.Tag):
-        print(ingredient_amount.text)
+    # リンク付きの材料名は、改行が入ってるので、リプレイス。
+    print(ingredient_names[i].text.replace("\n",""),ingredient_amounts[i].text)
 
-# 手順を取得して出力
-print("")
+# 手順を取得
 steps = soup.find("div", attrs={"id": "steps"}).findAll("p", attrs={"class": "step_text"})
-# print(steps)
-i = 1
 
+# 手順を出力
+i = 1
+print("\n手順")
 for step in steps:
-    if isinstance(step, bs4.Tag):
-        print(i, step.text)
+    # if isinstance(step, bs4.Tag):
+    #     print(i, step.text)
+    print(i, step.text)
     i += 1
+
