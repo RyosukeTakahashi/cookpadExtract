@@ -33,8 +33,6 @@ steps = soup.find("div", attrs={"id": "steps"}).findAll("p", attrs={"class": "st
 i = 1
 print("\n手順")
 for step in steps:
-    # if isinstance(step, bs4.Tag):
-    #     print(i, step.text)
     print(i, step.text)
     i += 1
 
