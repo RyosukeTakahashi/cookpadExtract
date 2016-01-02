@@ -7,7 +7,7 @@ param = sys.argv
 recipe_id = param[1]
 
 # HTML を取得し、bs4で読み取れるようにする
-html = urllib.request.urlopen("http://cookpad.com/recipe/" + recipe_id).read()
+html = urllib.request.urlopen("https://cookpad.com/recipe/" + recipe_id).read()
 soup = bs4.BeautifulSoup(html)
 
 # レシピのタイトルを取得し、出力
@@ -31,7 +31,7 @@ steps = soup.find("div", attrs={"id": "steps"}).findAll("p", attrs={"class": "st
 
 # 手順を出力
 i = 1
-print("\n手順")
+print("\n手順:")
 for step in steps:
     print(i, step.text)
     i += 1
