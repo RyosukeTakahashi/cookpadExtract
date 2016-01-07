@@ -2,9 +2,9 @@ import sys
 import urllib.request
 import bs4
 
-# 引数にidを入れて実行する
-param = sys.argv
-recipe_id = param[1]
+
+
+recipe_id = input("input recipe id:")
 
 # HTML を取得し、bs4で読み取れるようにする
 html = urllib.request.urlopen("https://cookpad.com/recipe/" + recipe_id).read()

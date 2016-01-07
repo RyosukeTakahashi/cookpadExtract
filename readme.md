@@ -11,8 +11,9 @@
 ##使い方
 
 0. cookpadでレシピを探し、idを調べる。http://cookpad.com/recipe/3533177 の3533177がID
-1. terminalでディレクトリを移動し、`python recipeExtract.py 3533177` 数字部分は任意のID
-2. レシピが出力される。
+1. recipe.commandを実行
+2. `input recipe ID`と出るので、入力してEnter
+3. レシピが出力される。
 
 
 
